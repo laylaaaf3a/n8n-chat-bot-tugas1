@@ -1,0 +1,116 @@
+{
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Selamat datang! 🤖\nSaya adalah AI Assistant yang dirancang untuk membantu menjawab pertanyaan terkait Digital Marketing, khususnya SEO dan Email Marketing.\nSilakan ajukan pertanyaan Anda dan saya akan membantu memberikan informasi yang Anda butuhkan.\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "e7e7afb4-c30d-43e0-b95d-58a9b284564e",
+      "name": "When chat message received",
+      "webhookId": "7eb726ff-302b-4c36-a111-dae0c666c18d"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Anda adalah AI Assistant yang bekerja sebagai asisten layanan jasa pariwisata. \nTugas Anda adalah membantu pengguna dengan memberikan informasi seputar paket wisata, destinasi wisata, harga paket, rekomendasi tempat wisata, serta tips perjalanan.\n\nJawablah pertanyaan pengguna dengan bahasa yang ramah, jelas, dan informatif. \nJika pengguna menanyakan paket wisata, berikan informasi mengenai destinasi, fasilitas, dan perkiraan harga jika tersedia. \nJika informasi tidak tersedia, katakan dengan jujur bahwa data belum tersedia dan sarankan pengguna untuk menghubungi admin.\n\nFokus hanya pada topik pariwisata seperti perjalanan, destinasi wisata, paket tour, dan layanan travel. \nJangan menjawab pertanyaan yang tidak berkaitan dengan pariwisata."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "82385f2a-01a2-4644-a5a5-28159550ab69",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-safeguard-20b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        208,
+        160
+      ],
+      "id": "fbc39191-859d-412d-b236-9dd941d84210",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "N8F4vg2X4jCtRVrH",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        304,
+        176
+      ],
+      "id": "c9f6fdcc-2bfb-4862-af4e-e7bcc88d285f",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "a5f4287e-803e-4c98-915d-da8fa162284b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a0691163fc9893a8f2b013bbc1257726163b22984c5130bc40ce2230db2cd230"
+  },
+  "id": "KAINOzEY91DqyD6C",
+  "tags": []
+}
